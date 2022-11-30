@@ -16,5 +16,12 @@ public class FieldOfViewEditor : Editor
 
 		Handles.DrawLine(fov.transform.position, fov.transform.position + viewAngleA * fov.viewRadius); // draw angle A.
 		Handles.DrawLine(fov.transform.position, fov.transform.position + viewAngleB * fov.viewRadius); // draw angle B.
+
+		Handles.color = Color.red;
+		// draw raycast to each target.
+		foreach (Transform visibleTarget in fov.visibleTargets)
+		{
+			Handles.DrawLine(fov.transform.position, visibleTarget.position);
+		}
 	}
 }

@@ -11,8 +11,8 @@ public class FieldOfView : MonoBehaviour
     public LayerMask targetMask;
     public LayerMask obstacleMask;
 
-    public List<Transform> visibleTargets;
-
+    [HideInInspector]
+    public List<Transform> visibleTargets = new List<Transform>();
 
 	void Start()
 	{
@@ -23,7 +23,7 @@ public class FieldOfView : MonoBehaviour
     {
         while (true)
         {
-            yield return new WaitForSeconds(delay);
+			yield return new WaitForSeconds(delay);
             FindVisibleTargets();
         }
     }
@@ -35,7 +35,7 @@ public class FieldOfView : MonoBehaviour
 		// fill array with all colliders of targets that interact with an overlap sphere.
 		Collider[] targetsInViewRadius = Physics.OverlapSphere(transform.position, viewRadius, targetMask); 
 
-        for (int i = 0; targetMask < targetsInViewRadius.Length; i++) // for each target in the array of colliders.
+        for (int i = 0; i < targetsInViewRadius.Length; i++) // for each target in the array of colliders.
         {
             Transform target = targetsInViewRadius[i].transform; // store transform of current target.
             Vector3 dirToTarget = (target.position - transform.position).normalized; // get unit vector of dir to target.
@@ -44,7 +44,7 @@ public class FieldOfView : MonoBehaviour
             {
                 float distToTarget = Vector3.Distance(transform.position, target.position); // get distance to target.
 
-                if (!Physics.Raycast(transform.position, dirToTarget, distToTarget, obstacleMask)) // if raycast doesn't collide with obstacle.
+				if (!Physics.Raycast(transform.position, dirToTarget, distToTarget, obstacleMask)) // if raycast doesn't collide with obstacle.
                 {
                     visibleTargets.Add(target); // store visible enemy.
                 }
